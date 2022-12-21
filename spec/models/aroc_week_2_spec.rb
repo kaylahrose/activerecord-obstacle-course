@@ -72,11 +72,12 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
     ]
 
     # ----------------------- Using Ruby -------------------------
-    items = Item.all.map { |item| item unless items_not_included.include?(item) }.compact
+    # items = Item.all.map { |item| item unless items_not_included.include?(item) }.compact
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    items = Item.where.not(id: items_not_included)
+    
     # ------------------------------------------------------------
 
     # Expectation
@@ -87,12 +88,19 @@ describe 'ActiveRecord Obstacle Course, Week 2' do
     expected_result = [@item_4, @item_2, @item_5, @item_3]
 
     # ----------------------- Using Ruby -------------------------
-    order = Order.find(@order_3.id)
-    grouped_items = order.items.sort_by { |item| item.name }
+    # order = Order.find(@order_3.id)
+    # @order_3
+    # grouped_items = @order_3.items.sort_by { |item| item.name }
+    # grouped_items = order.items.sort_by { |item| item.name }
+
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
     # Solution goes here
+    # grouped_items = require 'pry'; binding.pry
+
+    grouped_items = Order.select(:order).where(items: @item_3.id).order("name ASC")
+
     # ------------------------------------------------------------
 
     # Expectation
